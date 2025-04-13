@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "2724b6eb-ac50-4287-93ab-ae3faf1190c6",
+		"name": "Pruebas de Endpoints",
+		"description": "Colección para probar los endpoints de la aplicación",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8872329"
+	},
+	"item": [
+		{
+			"name": "Enviar datos de formulario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre",
+							"value": "Juan Tavares",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "juan@example.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3005/form",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"form"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enviar datos JSON",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clave1\": \"valor1\",\n    \"clave2\": \"valor2\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3005/api/data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3005",
+					"path": [
+						"api",
+						"data"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
