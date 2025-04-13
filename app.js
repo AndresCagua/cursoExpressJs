@@ -22,8 +22,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(LoggerMiddleware);
 app.use(errorHandler);
 
-app.use(express.json()); // For parsing JSON bodies
-
 const PORT = process.env.PORT || 3000;
 console.log(PORT);
 
@@ -175,58 +173,39 @@ app.get('/protected-route', authenticateToken, (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-  try {
-    // 1. Normaliza las claves del body (elimina espacios)
-    const normalizedBody = {};
-    Object.keys(req.body).forEach(key => {
-      normalizedBody[key.trim()] = typeof req.body[key] === 'string' ? req.body[key].trim() : req.body[key];
-    });
+  const { email, password, name } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-    const { email, password, name } = normalizedBody;
-
-    // 2. Validación de campos
-    const missingFields = [];
-    if (!email) missingFields.push('email');
-    if (!password) missingFields.push('password');
-    if (!name) missingFields.push('name');
-
-    if (missingFields.length > 0) {
-      return res.status(400).json({
-        error: 'Faltan campos obligatorios',
-        missingFields,
-        details: `Los siguientes campos están vacíos o tienen espacios en las claves: ${missingFields.join(', ')}. ¿Quizás escribiste " email" en lugar de "email"?`
-      });
+  const newUser = await prisma.user.create({
+    data: {
+      email,
+      password: hashedPassword,
+      name,
+      role: 'USER'
     }
+  });
+  res.status(201).json({ message: 'User Registered Successfully' });
+});
 
-    // 3. Validación adicional (ejemplo: formato de email)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({ error: 'Formato de email inválido' });
-    }
+app.post('/login', async (req, res, next) => {
+  const { email, password } = req.body;
+  const user = await prisma.user.findUnique({ where: { email } });
 
-    // 4. Procesamiento seguro
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        name,
-        role: 'USER'
-      }
-    });
+  if (!user)
+    return res.status(400).json({ error: 'Invalid email or password' });
+  const validPassword = await bcrypt.compare(password, user.password);
 
-    res.status(201).json({ message: 'Usuario registrado exitosamente' });
+  if (!validPassword)
+    res.status(400).json({ error: 'Invalid email or password' });
 
-  } catch (error) {
-    console.error('Error en el registro:', error);
+  const token = jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: '4h' }
+  );
 
-    // Manejo específico de errores de Prisma (ej: email duplicado)
-    if (error.code === 'P2002') {
-      return res.status(409).json({ error: 'El email ya está registrado' });
-    }
-
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
+  res.json({ token });
+  next();
 });
 
 app.listen(PORT, () => {
