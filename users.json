@@ -1,34 +1,17 @@
 [
   {
     "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com"
+    "name": "Jane",
+    "email": "jane@example3.com"
   },
   {
     "id": 2,
-    "name": "Jane Smith",
-    "email": "jane@example.com"
+    "name": "Jhon Smith 2",
+    "email": "jhon@example3.com"
   },
   {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com"
-  },
-  [
-    {
-      "id": 1,
-      "name": "John Doe",
-      "email": "john@example.com"
-    },
-    {
-      "id": 2,
-      "name": "Jane Smith",
-      "email": "jane@example.com"
-    },
-    {
-      "id": 1,
-      "name": "John Doe",
-      "email": "john@example.com"
-    }
-  ]
+    "id": 3,
+    "name": "Jhon Smith 3",
+    "email": "jhon@example3.com"
+  }
 ]
