@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "name": "curso-expressjs",
+  "version": "1.0.0",
+  "description": "curso express.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "['expressjs']"
+  ],
+  "author": "Oscar Barajas <oscar@platzi.com>",
+  "license": "MIT",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndresCagua/cursoExpressJs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AndresCagua/cursoExpressJs/issues"
+  },
+  "homepage": "https://github.com/AndresCagua/cursoExpressJs#readme"
+}
