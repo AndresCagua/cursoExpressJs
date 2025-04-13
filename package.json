@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "dotenv": "^16.5.0",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2"
   },
   "name": "curso-expressjs",
